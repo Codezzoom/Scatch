@@ -1,8 +1,11 @@
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const path = require('path');
+const debug = require('debug')("development:app");
+
 
 const connectedWithMongoDB = require('./config/connection');
+const url = require('./config/developement.json')
 const ownerRouter = require('./routes/owner')
 const productRouter = require('./routes/product')
 const userRouter = require('./routes/user')
@@ -23,8 +26,8 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // START CONNECTION
-connectedWithMongoDB('mongodb://127.0.0.1:27017/Scatch')
-    .then(() => console.log("MongoDB is connected"))
+connectedWithMongoDB(`${url.MONGO_DB}/Scatch`)
+    .then(() => debug("MongoDB is connected"))
     .catch(err => console.log(err));
 
 // ROUTES
